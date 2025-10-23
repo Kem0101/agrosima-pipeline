@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  # postgres local for analytics
+  postgres-local:
+    image: postgres:15-alpine
+    container_name: agrosima-postgres-local
+    restart: unless-stopped
+    environment:
+      "POSTGRES_USER": ${POSTGRES_LOCAL_USER:-analytics-user}
+      "POSTGRES_DB": ${POSTGRES_LOCAL_DB:-agrosima-analytics}
+      "POSTGRES_PASSWORD": ${POSTGRES_LOCAL_PASSWORD:-analytics-password}
+    ports:
+      - ${POSTGRES_LOCAL_PORT:-5433}:5432
+    # persist data between restarts
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # backups folder
+      - ./backups:/backups
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_LOCAL_USER:-analytics-user} -d ${POSTGRES_LOCAL_DB:-agrosima-analytics}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+    name: agrosima-postgres-local-data
+    driver: local
+
+networks:
+  default:
+    name: agrosima-network

@@ -1,3 +1,8 @@
+AWS RDS (Postgres) → FastAPI → Tu Pipeline → Analytics DB
+     ↑                  ↑            ↑
+  (Simula Prod)    (Tu API)    (Tu Sistema)
+
+
 # Agrosima Data Pipeline
 
 Data engineering pipeline for sales optimization and predictive analytics.
