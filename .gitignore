@@ -1,6 +1,7 @@
 # Environment files
 .env
 config/backup.env
+.env.example
 
 # Backup files
 backups/*.sql
